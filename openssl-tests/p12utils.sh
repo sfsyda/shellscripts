@@ -4,7 +4,11 @@ set -eux
 
 #openssl pkcs12 -in files/badssl.com-client.p12 -passin pass:badssl.com -nokeys -clcerts -legacy
 #openssl pkcs12 -in files/badssl.com-client.p12 -passin pass:badssl.com -nokeys -cacerts -legacy
-##openssl pkcs12 -in files/badssl.com-client.p12 -passin pass:badssl.com -nocerts -passout pass: -legacy
+#openssl pkcs12 -in files/badssl.com-client.p12 -passin pass:badssl.com -nocerts -passout pass: -legacy
+
+##Test connection with extracted certs
+#curl -v https://badssl.com --cert out/cert.pem --key out/key-with-pass.pem --pass testpass
+#openssl s_client -connect badssl.com:443 -cert out/cert.pem -key out/key.pem
 
 #Usage - sh p12utils.sh getcert files/badssl.com-client.p12 ./out/cert.pem badssl.com -legacy
 getcert() {
@@ -43,6 +47,7 @@ getkey() {
     command="openssl pkcs12 -nocerts -in ${inpath} -out ${outpath} -passin pass:${inpwd} -passout pass: ${extraargs}"
     echo $command
     $command
+    openssl rsa -in ${outpath} -out ${outpath} -passin pass:
 }
 
 #Usage - sh p12utils.sh getkeywithpass files/badssl.com-client.p12 ./out/key.pem badssl.com testpass -legacy
@@ -86,6 +91,7 @@ topem() {
     command="openssl pkcs12 -in ${inpath} -out ${outpath} -passin pass:${inpwd} -passout pass: ${extraargs}"
     echo $command
     $command
+    openssl rsa -in ${outpath} -out ${outpath} -passin pass:
 }
 
 
