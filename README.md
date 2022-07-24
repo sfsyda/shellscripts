@@ -1,3 +1,1 @@
-# shellscripts
-
-Shell script utilities for practice and useful for beginners.
+Very silly shell scripts for practice and learning!!
